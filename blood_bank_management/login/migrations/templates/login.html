@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+</head>
+<body>
+    {% if messages %}
+    <div>
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <h1>Login Form</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+    
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+    
+        <button type="submit">Login</button>
+    </form>
+    <br>
+    <p>Don't have an account? <a href="{% url 'login:signup' %}">Sign up here</a></p>
+    <p>Or Login as a <a class="nav-link" href="{% url 'hospital:login' %}">Hospital User</a></p>
+</body>
+</html>

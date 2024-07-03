@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hospital Data</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+</head>
+<body>
+    {% block navigation %}
+    {% if messages %}
+    <div>
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{% url 'hospital:hospital_list' hospital_id=hospital.pk %}">Blood Bank</a>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'hospital:hospital_list' hospital_id=hospital.pk %}">Current Availability of Blood</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'hospital:donate_blood' hospital_id=hospital.pk %}">Manage Donors</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'hospital:manage_requests' hospital_id=hospital.pk %}">Manage Requests</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'hospital:manage_inventory' hospital_id=hospital.pk %}">Manage Inventory</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login:login' %}">Login as a Normal User</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <br>
+    {% endblock navigation %}
+    {% block content %}
+    <h1 style="text-align:center">Current Inventory in {{ hospital.hospital_name }}</h1><br>
+
+    <table border='1' style="margin-left: auto; margin-right: auto;">
+        <tr style="text-align: center">
+            <th>Blood Group</th>
+            <th>Quantity</th>
+        </tr>
+        {% for item in inventory %}
+        <tr style="text-align: center">
+            <td>{{ item.blood_group }}</td>
+            <td>{{ item.quantity }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <button style="display: block; margin: 0 auto;"><a href="{% url 'hospital:logout' %}" style="color: black;">Logout</a></button>
+    {% endblock content %}
+</body>
+</html>

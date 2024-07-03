@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blood Bank</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+</head>
+<body>
+    {% block navigation %}
+    {% if messages %}
+    <div>
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'login:home' %}">Blood Bank</a>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'login:home' %}">Blood Availability Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'hospital:request_blood' %}">Request Blood</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'hospital:request_history' %}">Previous History</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'hospital:login' %}">Hospital Login</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <br>
+    {% endblock navigation %}
+    {% block content %}
+    <h1 style="text-transform: capitalize;">Hello, {{ user.username }}!</h1>
+    <br>
+    <div style="text-align:center">
+        <h1>Search Here</h1>
+        <br>
+        <form method="get">
+            <table style="margin-left: auto; margin-right: auto;">
+                <tr>
+                    <td style="padding-right: 10px"><label for="id_blood_group">Blood Group:</label></td>
+                    <td style="padding-right: 20px">
+                        <select id="id_blood_group" name="blood_group" class="form-control">
+                            <option value="">None</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </td>
+                    <td style="padding-right: 10px"><label for="id_city">City:</label></td>
+                    <td style="padding-right: 20px"><input type="text" id="id_city" name="city" class="form-control" value="{{ request.GET.city }}"></td>
+                    <td style="padding-right: 10px"><label for="id_area">Area:</label></td>
+                    <td><input type="text" id="id_area" name="area" class="form-control" value="{{ request.GET.area }}"></td>
+                </tr>
+            </table>
+            <br>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+        <br>
+        <table border='1' style="margin-left: auto; margin-right: auto;">
+            <tr style="text-align: center">
+                <th>Hospital Name</th>
+                <th>City</th>
+                <th>Area</th>
+                <th>Blood Group</th>
+            </tr>    
+            {% for hospital in hospitals %}
+                <tr style="text-align: center;">
+                    <td>{{ hospital.hospital_name }}</td>
+                    <td>{{ hospital.city }}</td>
+                    <td>{{ hospital.area }}</td>
+                    <td>{{ blood_group }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <br>  
+        <button><a href="{% url 'login:logout' %}" style="color: black;">Logout</a></button>
+    </div>
+    {% endblock content %}
+</body>
+</html>

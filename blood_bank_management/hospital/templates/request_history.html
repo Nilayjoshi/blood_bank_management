@@ -1,0 +1,40 @@
+{% extends "home.html" %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Request History</title>
+</head>
+<body>
+    {% block content %}
+    <h3 style="text-align:center">Blood Requests History</h3><br>
+    {% if accepted_requests %}
+    <table style="margin-left: auto; margin-right: auto;" border="1">
+        <thead style="text-align: center">
+            <tr>
+                <th>Hospital</th>
+                <th>Blood Group</th>
+                <th>Quantity</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody style="text-align: center">
+            {% for request in accepted_requests %}
+            <tr>
+                <td>{{ request.hospital.hospital_name }}</td>
+                <td>{{ request.blood_group }}</td>
+                <td>{{ request.quantity }}</td>
+                <td>{{ request.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p style="text-align: center;">No accepted blood requests found.</p>
+    {% endif %}
+    <br>
+    <div style="text-align: center;">
+        <button><a href="{% url 'login:home' %}" style="color: black;">Back to Home</a></button>
+    </div>
+    {% endblock content %}
+</body>
+</html>

@@ -1,0 +1,52 @@
+{% extends "hospital_list.html" %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Blood Requests</title>
+</head>
+<body>
+    {% block content %}
+    <div class="requets_blood" style="text-align:center">
+        <h1>Manage Blood Requests for {{ hospital.hospital_name }}</h1>
+        <br>
+        <table border='1' style="margin-left: auto; margin-right: auto;">
+            <thead>
+                <tr style="text-align: center">
+                    <th>Patient</th>
+                    <th>Blood Group</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                <tr style="text-align: center">
+                    <td>{{ request.patient.username }}</td>
+                    <td>{{ request.blood_group }}</td>
+                    <td>{{ request.quantity }}</td>
+                    <td>{{ request.status }}</td>
+                    <td>
+                        {% if request.status == 'PENDING' %}
+                        <form method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="request_id" value="{{ request.id }}">
+                            <input type="hidden" name="action" value="accept">
+                            <button type="submit">Accept</button>
+                        </form>
+                        <form method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="request_id" value="{{ request.id }}">
+                            <input type="hidden" name="action" value="reject">
+                            <button type="submit">Reject</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>    
+    {% endblock content %}
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hospital Signup Form</title>
+</head>
+<body>
+    {% if messages %}
+    <div>
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <h1>Hospital Sign Up Form</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="hospital_name">Hospital Name:</label>
+        <input type="text" id="hospital_name" name="hospital_name" required><br><br>
+        
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required><br><br>
+        
+        <label for="area">Area:</label>
+        <input type="text" id="area" name="area" required><br><br>
+
+        <label for="phone_number">Phone Number:</label>
+        <input type="text" id="phone_number" name="phone_number" maxlength="15" required><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <button type="submit">Sign Up</button>
+    </form>
+    <p>Already have an account? <a href="{% url 'hospital:login' %}">Login here</a></p>
+</body>
+</html>
